@@ -7,7 +7,7 @@ from watchdog.events import PatternMatchingEventHandler
 
 downloads_path = str(Path.home() / "Downloads")
 
-path = downloads_path + '/'
+path = downloads_path + '///'
 
 class format:
     def __init__(self, name, roll):
@@ -42,20 +42,21 @@ def organize_files():
             fileFormat = os.path.splitext(file)[1]
     
             if obj.extension == fileFormat.lower():
-                pathToFile = path + obj.name + '/'
+                pathToFile = path + obj.name + '///'
     
                 oldPath = path + file
                 destination = pathToFile + file
                 if os.path.isdir(pathToFile) == False:
                     os.mkdir(pathToFile)
                     shutil.move(oldPath, destination)
+                    print('Folder has been created', pathToFile)
+                    print('File ' , file,'has been moved to ', destination)
                     generalFolder.remove(file)
                 else:
-                   
                     shutil.move(oldPath, destination)
+                    print('File ' , file,'has been moved to ', destination)
                     generalFolder.remove(file)
             elif fileFormat == '.tmp':
-                 
                 try:
                     generalFolder.remove(file)
                 except Exception:
@@ -64,20 +65,24 @@ def organize_files():
     
     if len(generalFolder) > 0:
         for file in generalFolder:
-            otherFilesPath = path + 'others/'
+            otherFilesPath = path + 'others///'
             oldPath = path + file
             destination = otherFilesPath + file
             if os.path.isdir(otherFilesPath) == False:
                 os.mkdir(otherFilesPath)
                 shutil.move(oldPath, destination)
+                print('Folder has been created', pathToFile)
+                print('File ' , file,'has been moved to ', destination)
             else:
+                print('File ' , file,'has been moved to ', destination)
                 shutil.move(oldPath, destination)
 
 def on_created(event):
    organize_files()
 
 def on_modified(event):
-   organize_files()
+    
+    organize_files()
    
 organize_files()   
 
